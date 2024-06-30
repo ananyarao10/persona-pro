@@ -1,0 +1,43 @@
+.get-started-pg {
+    position: relative;
+    padding-top: 20px; /* Adjust as needed */
+  }
+  
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+  }
+  
+  .logo-home {
+    width: 50px; /* Adjust width as per your logo size */
+    height: auto;
+  }
+  
+  .nav-links {
+    display: flex;
+  }
+  
+  .nav-links h2 {
+    margin: 0 10px;
+    cursor: pointer;
+  }
+  
+  .menu-home {
+    width: 50px; /* Adjust width as per your menu button size */
+    height: auto;
+  }
+  
+  .form-container {
+    width: 70%;
+    max-width: 600px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin: auto;
+    margin-top: 20px; /* Adjust margin-top to create space between form and navigation */
+  }
+  

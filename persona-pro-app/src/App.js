@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/HomePage';
 import AboutUs from './pages/AboutUs';
 import Preferences from './pages/Preferences';
-import GetStarted from './pages/GetStarted';
+import GetStarted from './pages/Form';
 
 function App() {
   return (
