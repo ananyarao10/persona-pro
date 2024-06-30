@@ -1,0 +1,78 @@
+.home-page {
+  position: relative;
+  margin: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.logo-home {
+  position: absolute;
+  width: 5%;
+  left: 1%;
+}
+
+.get-started, .about-us, .preferences {
+  position: relative;
+  display: inline-block;
+  left: 10%;
+  padding-top: 10px;
+  padding-right: 60px;
+}
+
+.get-started::before, .about-us::before, .preferences::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid transparent; 
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.get-started:hover::before, .about-us:hover::before, .preferences:hover::before {
+  border-color: rgba(0, 0, 0, 0.5); 
+}
+
+.menu-home {
+  position: absolute;
+  width: 3%;
+  right: 2%;
+  top: 2%;
+}
+
+.inner-block {
+  position: absolute;
+  background-color: white;
+  width: 80%;
+  height: 75%;
+  left: 10%;
+  top: 18%;
+}
+
+.title-home {
+  position: absolute;
+  color: #46242D;
+  top: 0%;
+  left: 23%;
+  font-size: 9.0rem;
+  margin: 0;
+}
+
+.line-home {
+  position: absolute;
+  background-color: #46242D;
+  height: 2%;
+  top: 3%;
+  left: 22%;
+}
+
+.home-page-image {
+  position: absolute;
+  top: 29%;
+  left: 13%;
+  width: 75%;
+  height: 66%;
+}
