@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/logo.png" alt="PersonaPro Logo" width="200"/>
+  <img src="https://github.com/ananyarao10/persona-pro/assets/106833228/d7b867f7-4dfe-4ea8-972e-7167ba13ab3f" alt="Image" />
 </div>
 
 # Welcome to PersonaPro! 🚀
@@ -17,12 +17,3 @@ In today's dynamic corporate environment, leveraging artificial intelligence to 
 1. **Get Started**: Complete the survey to configure ChatGPT.
 2. **Personalize**: Tailor AI responses to align with your job's unique requirements.
 3. **Feedback Loop**: Provide ratings and detailed feedback to refine and enhance the AI customization.
-
-## Installation 📦
-
-Clone the repository and install dependencies to get started:
-
-```bash
-git clone https://github.com/your/repository.git
-cd PersonaPro
-npm install
