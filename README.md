@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/ananyarao10/persona-pro/assets/106833228/d7b867f7-4dfe-4ea8-972e-7167ba13ab3f" alt="Image" />
+  <img src="https://github.com/ananyarao10/persona-pro/assets/106833228/d7b867f7-4dfe-4ea8-972e-7167ba13ab3f" alt="Image" width="100"/>
 </div>
 
 # Welcome to PersonaPro! 🚀
