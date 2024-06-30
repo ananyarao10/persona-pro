@@ -19,21 +19,8 @@
   padding-right: 60px;
 }
 
-.get-started::before, .about-us::before, .preferences::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid transparent; 
-  box-sizing: border-box;
-  transition: border-color 0.3s ease, transform 0.3s ease;
-  pointer-events: none;
-}
-
-.get-started:hover::before, .about-us:hover::before, .preferences:hover::before {
-  border-color: rgba(0, 0, 0, 0.5); 
+.get-started:hover, .about-us:hover, .preferences:hover {
+  text-decoration: underline; 
 }
 
 .menu-home {
