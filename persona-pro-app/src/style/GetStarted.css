@@ -1,43 +1,143 @@
 .get-started-pg {
-    position: relative;
-    padding-top: 20px; /* Adjust as needed */
-  }
-  
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 10px 20px;
-  }
-  
-  .logo-home {
-    width: 50px; /* Adjust width as per your logo size */
-    height: auto;
-  }
-  
-  .nav-links {
-    display: flex;
-  }
-  
-  .nav-links h2 {
-    margin: 0 10px;
-    cursor: pointer;
-  }
-  
-  .menu-home {
-    width: 50px; /* Adjust width as per your menu button size */
-    height: auto;
-  }
-  
-  .form-container {
-    width: 70%;
-    max-width: 600px;
-    background-color: #ffffff;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    margin: auto;
-    margin-top: 20px; /* Adjust margin-top to create space between form and navigation */
-  }
-  
+  padding: 20px;
+  background-color: #D2C2BC;
+  position: relative;
+  min-height: 100vh;
+}
+
+.form-setup {
+  margin-top: 50px;
+}
+
+.form {
+  width: 70%;
+  background-color: #ffffff;
+  padding: 50px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.center-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.form-title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 3rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  background-color: #46242D;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #46242D;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.icon {
+  width: 90px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  position: relative;
+}
+
+.icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-name {
+  margin-top: 15px;
+}
+
+.icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.icon span {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+.icon:hover {
+  background-color: #46242D;
+}
+
+.icon.selected {
+  background-color: #46242D;
+  color: #ffffff;
+}
+
+.responsibilities-list {
+  margin-top: 5px;
+}
+
+.responsibility-item {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.responsibility-item span {
+  margin-right: 10px; 
+}
+
+.responsibility-item button {
+  background-color: #46242D;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+}
