@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style/GetStarted.css';
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
-import { MdSupportAgent, MdCode, MdPeople, MdAttachMoney, MdBuild, MdDesktopMac, MdGavel, MdDesignServices } from 'react-icons/md';
+import { MdMoreHoriz, MdSupportAgent, MdCode, MdPeople, MdAttachMoney, MdBuild, MdDesktopMac, MdGavel, MdDesignServices } from 'react-icons/md';
 
 const departments = [
   { name: 'Customer Support', icon: <MdSupportAgent size={50} /> },
@@ -15,6 +15,7 @@ const departments = [
   { name: 'IT', icon: <MdDesktopMac size={50} /> },
   { name: 'Legal', icon: <MdGavel size={50} /> },
   { name: 'Design', icon: <MdDesignServices size={50} /> },
+  { name: 'Other', icon: <MdMoreHoriz size={50} /> },
 ];
 
 const GetStarted = () => {
@@ -25,9 +26,12 @@ const GetStarted = () => {
     jobTitle: '',
     department: '',
     responsibilities: [],
-    challenge: '',
-    challengeFrequency: '',
-    supportNeeded: '',
+    challenges: [
+      { name: '', frequency: '' },
+      { name: '', frequency: '' },
+      { name: '', frequency: '' },
+    ],
+    supportNeeded: 5,
     communicationStyle: '',
     responseDetail: '',
     industryKnowledge: '',
@@ -40,6 +44,12 @@ const GetStarted = () => {
     feedbackReceiving: '',
     helpfulFeedback: ''
   });
+
+  const calculateProgress = () => {
+    const totalFields = Object.keys(formData).length;
+    const filledFields = Object.values(formData).filter((value) => value !== '').length;
+    return Math.floor((filledFields / totalFields) * 100);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -74,6 +84,23 @@ const GetStarted = () => {
     }));
   };
 
+  const handleChallengeChange = (index, fieldName, value) => {
+    const newChallenges = [...formData.challenges];
+    newChallenges[index][fieldName] = value;
+    setFormData((prevData) => ({
+      ...prevData,
+      challenges: newChallenges,
+    }));
+  };
+
+  const handleSupportNeededChange = (event) => {
+    setFormData({ ...formData, supportNeeded: parseInt(event.target.value) });
+  };
+
+  const handleCommunicationStyleSelect = (style) => {
+    setFormData({ ...formData, communicationStyle: style });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -81,10 +108,13 @@ const GetStarted = () => {
       fullName: '',
       jobTitle: '',
       department: '',
-      responsibilities: ['', '', ''],
-      challenge: '',
-      challengeFrequency: '',
-      supportNeeded: '',
+      responsibilities: [],
+      challenges: [
+        { name: '', frequency: '' },
+        { name: '', frequency: '' },
+        { name: '', frequency: '' },
+      ],
+      supportNeeded: 5,
       communicationStyle: '',
       responseDetail: '',
       industryKnowledge: '',
@@ -98,6 +128,20 @@ const GetStarted = () => {
       helpfulFeedback: ''
     });
   };
+
+  const communicationStyles = ['Formal', 'Informal', 'Technical', 'Friendly', 'Direct', 'Assertive', 'Passive'];
+
+  const challengeOptions = [
+    'Managing Workload',
+    'Adapting to Change',
+    'Improving Communication',
+    'Handling Client Expectations',
+    'Team Collaboration',
+    'Learning New Technologies',
+    'Other'
+  ];
+
+  const progress = calculateProgress();
 
   return (
     <div className="get-started-pg">
@@ -113,9 +157,15 @@ const GetStarted = () => {
             <h1 className='form-title'>Persona Pro Questionnaire</h1>
           </div>
 
+          <div className="progress-bar">
+            <div className="progress" style={{ width: `${progress}%` }}>
+              {progress}% Complete
+            </div>
+          </div>
+
           <div className="form-group">
             <label>Full Name</label>
-            <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+            <input placeholder="First and last" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
           </div>
 
           <div className="form-group">
@@ -163,31 +213,103 @@ const GetStarted = () => {
           </div>
 
           <div className="form-group">
-            <label>Main Challenge</label>
-            <input type="text" name="challenge" value={formData.challenge} onChange={handleChange} />
+            <label>Main Challenges</label>
+            {formData.challenges.map((challenge, index) => (
+              <div key={index}>
+                <select
+                  value={challenge.name}
+                  onChange={(e) => handleChallengeChange(index, 'name', e.target.value)}
+                >
+                  <option value="">Select main challenge...</option>
+                  {challengeOptions.map((option, idx) => (
+                    <option key={idx} value={option}>{option}</option>
+                  ))}
+                </select>
+                {challenge.name === 'Other' && (
+                  <input
+                    type="text"
+                    value={challenge.name}
+                    onChange={(e) => handleChallengeChange(index, 'name', e.target.value)}
+                    placeholder="Specify other challenge"
+                  />
+                )}
+                <select value={challenge.frequency} onChange={(e) => handleChallengeChange(index, 'frequency', e.target.value)}>
+                  <option value="">Select frequency...</option>
+                  <option value="Daily">Daily</option>
+                  <option value="Weekly">Weekly</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Rarely">Rarely</option>
+                </select>
+                {index > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const updatedChallenges = [...formData.challenges];
+                      updatedChallenges.splice(index, 1);
+                      setFormData((prevData) => ({
+                        ...prevData,
+                        challenges: updatedChallenges,
+                      }));
+                    }}>Remove</button>
+                )}
+              </div>
+            ))}
+            {formData.challenges.length < 3 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    challenges: [...prevData.challenges, { name: '', frequency: '' }],
+                  }));
+                }}
+              >
+                Add Challenge
+              </button>
+            )}
           </div>
-          <div className="form-group">
-            <label>Frequency of Challenge</label>
-            <select name="challengeFrequency" value={formData.challengeFrequency} onChange={handleChange}>
-              <option value="Daily">Daily</option>
-              <option value="Weekly">Weekly</option>
-              <option value="Monthly">Monthly</option>
-              <option value="Rarely">Rarely</option>
-            </select>
-          </div>
+
           <div className="form-group">
             <label>Support Needed</label>
-            <input type="text" name="supportNeeded" value={formData.supportNeeded} onChange={handleChange} />
+            <p className="support-description">
+              How much support do you need in your role? This scale represents the level of
+              assistance or resources you require.
+            </p>
+            <input
+              type="range"
+              min="1"
+              max="10"
+              value={formData.supportNeeded}
+              onChange={handleSupportNeededChange}
+              className="slider"
+              id="supportRange"
+            />
+            <div className="slider-values">
+              {[...Array(10)].map((_, index) => (
+                <span
+                  key={index}
+                  className={formData.supportNeeded === index + 1 ? 'selected' : ''}
+                  style={{ fontWeight: formData.supportNeeded === index + 1 ? 'bold' : 'normal' }}
+                >
+                  {index + 1}
+                </span>
+              ))}
+            </div>
           </div>
+
           <div className="form-group">
-            <label>Preferred Communication Style</label>
-            <select name="communicationStyle" value={formData.communicationStyle} onChange={handleChange}>
-              <option value="Formal">Formal</option>
-              <option value="Informal">Informal</option>
-              <option value="Technical">Technical</option>
-              <option value="Friendly">Friendly</option>
-            </select>
+            <label>Communication Style</label>
+            <div className="communication-styles">
+              {communicationStyles.map((style, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  className={`communication-style-button ${formData.communicationStyle === style ? 'selected' : ''}`}
+                  onClick={() => handleCommunicationStyleSelect(style)}>{style}</button>
+              ))}
+            </div>
           </div>
+
           <div className="form-group">
             <label>Preferred Response Detail</label>
             <select name="responseDetail" value={formData.responseDetail} onChange={handleChange}>
