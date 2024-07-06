@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../style/GetStarted.css';
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
-import { MdMoreHoriz, MdSupportAgent, MdCode, MdPeople, MdAttachMoney, MdBuild, MdDesktopMac, MdGavel, MdDesignServices } from 'react-icons/md';
+import { MdMoreHoriz, MdSupportAgent, MdCode, MdPeople, MdAttachMoney, MdSchool, MdDesktopMac, MdGavel, MdDesignServices } from 'react-icons/md';
 
 const departments = [
   { name: 'Customer Support', icon: <MdSupportAgent size={50} /> },
@@ -11,7 +11,7 @@ const departments = [
   { name: 'Human Resources', icon: <MdPeople size={50} /> },
   { name: 'Sales', icon: <FaMoneyBillTrendUp size={50} /> },
   { name: 'Finance', icon: <MdAttachMoney size={50} /> },
-  { name: 'Operations', icon: <MdBuild size={50} /> },
+  { name: 'Student', icon: <MdSchool size={50} /> },
   { name: 'IT', icon: <MdDesktopMac size={50} /> },
   { name: 'Legal', icon: <MdGavel size={50} /> },
   { name: 'Design', icon: <MdDesignServices size={50} /> },
@@ -20,6 +20,7 @@ const departments = [
 
 const GetStarted = () => {
   const navigate = useNavigate();
+  const [newTool, setNewTool] = useState('');
   const [newResponsibility, setNewResponsibility] = useState('');
   const [formData, setFormData] = useState({
     fullName: '',
@@ -35,20 +36,37 @@ const GetStarted = () => {
     communicationStyle: '',
     responseDetail: '',
     industryKnowledge: '',
-    industryRegulations: '',
-    tools: '',
-    challengingTool: '',
-    goals: '',
-    skillsNeeded: '',
+    tools: [],
     feedbackGiving: '',
     feedbackReceiving: '',
-    helpfulFeedback: ''
+    additionalInfo: '',
   });
 
   const calculateProgress = () => {
     const totalFields = Object.keys(formData).length;
     const filledFields = Object.values(formData).filter((value) => value !== '').length;
     return Math.floor((filledFields / totalFields) * 100);
+  };
+
+  const handleAddTool = () => {
+    if (newTool.trim() !== '') {
+      setFormData((prevData) => ({
+        ...prevData,
+        tools: [...prevData.tools, newTool],
+      }));
+      setNewTool('');
+    }
+  };
+
+  const handleRemoveTool = (index) => {
+    setFormData((prevData) => {
+      const updatedTools = [...prevData.tools];
+      updatedTools.splice(index, 1);
+      return {
+        ...prevData,
+        tools: updatedTools,
+      };
+    });
   };
 
   const handleChange = (event) => {
@@ -59,11 +77,18 @@ const GetStarted = () => {
     }));
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleAddTool();
+    }
+  };
+
   const handleAddResponsibility = () => {
     if (newResponsibility.trim() !== '') {
       setFormData((prevData) => ({
         ...prevData,
-        responsibilities: [...prevData.responsibilities, newResponsibility],
+        responsibilities: [...prevData.responsibilities, newResponsibility.trim()],
       }));
       setNewResponsibility('');
     }
@@ -75,6 +100,13 @@ const GetStarted = () => {
       ...prevData,
       responsibilities: updatedResponsibilities,
     }));
+  };
+
+  const handleResponsibilityKeyDown = (event) => {
+    if (event.key === 'Enter' && newResponsibility.trim()) {
+      event.preventDefault();
+      handleAddResponsibility();
+    }
   };
 
   const handleDepartmentSelect = (department) => {
@@ -118,34 +150,22 @@ const GetStarted = () => {
       communicationStyle: '',
       responseDetail: '',
       industryKnowledge: '',
-      industryRegulations: '',
-      tools: '',
-      challengingTool: '',
-      goals: '',
-      skillsNeeded: '',
+      tools: [],
       feedbackGiving: '',
       feedbackReceiving: '',
-      helpfulFeedback: ''
+      additionalInfo: '',
     });
   };
 
   const communicationStyles = ['Formal', 'Informal', 'Technical', 'Friendly', 'Direct', 'Assertive', 'Passive'];
 
-  const challengeOptions = [
-    'Managing Workload',
-    'Adapting to Change',
-    'Improving Communication',
-    'Handling Client Expectations',
-    'Team Collaboration',
-    'Learning New Technologies',
-    'Other'
-  ];
+  const challengeOptions = ['Managing Workload','Adapting to Change','Improving Communication','Handling Client Expectations','Team Collaboration','Learning New Technologies','Other'];
 
   const progress = calculateProgress();
 
   return (
     <div className="get-started-pg">
-      <img className="logo-home" src="/logo.png" alt="persona pro logo"/>
+      <img onClick={() => navigate('/')} className="logo-home" src="/logo.png" alt="persona pro logo"/>
       <h2 onClick={() => navigate('/get-started')} className="get-started">Get Started</h2>
       <h2 onClick={() => navigate('/about-us')} className="about-us">About Us</h2>
       <h2 onClick={() => navigate('/preferences')} className="preferences">Preferences</h2>
@@ -157,20 +177,25 @@ const GetStarted = () => {
             <h1 className='form-title'>Persona Pro Questionnaire</h1>
           </div>
 
+          <p style={{textAlign:'center'}} className="support-description">
+          Completing this form allows us to understand your professional profile comprehensively, enabling us to tailor support and resources that align with your responsibilities, challenges, and goals. Your input helps us personalize AI applications according to your role, ensuring tailored support and efficient task management.</p>
+
           <div className="progress-bar">
             <div className="progress" style={{ width: `${progress}%` }}>
               {progress}% Complete
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Full Name</label>
-            <input placeholder="First and last" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
-          </div>
+          <div className='form-row'>
+            <div className="form-group-row">
+              <label>Full Name</label>
+              <input placeholder="First and Last" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+            </div>
 
-          <div className="form-group">
-            <label>Job Title</label>
-            <input type="text" name="jobTitle" value={formData.jobTitle} onChange={handleChange} />
+            <div className="form-group-row">
+              <label>Job Title</label>
+              <input placeholder="Job Title" type="text" name="jobTitle" value={formData.jobTitle} onChange={handleChange} />
+            </div>
           </div>
 
           <div className="form-group">
@@ -191,29 +216,53 @@ const GetStarted = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Responsibilities</label>
-            <div className="responsibilities-list">
-              {formData.responsibilities.map((responsibility, index) => (
-                <div key={index} className="responsibility-item">
-                  <span>{responsibility}</span>
-                  <button type="button" onClick={() => handleRemoveResponsibility(index)}>X</button>
-                </div>
-              ))}
+          <div className='form-row'>
+            <div className="form-group-row">
+              <label>Responsibilities</label>
+              <div className="responsibilities-list">
+                {formData.responsibilities.map((responsibility, index) => (
+                  <div key={index} className="responsibility-item">
+                    <span>{responsibility}</span>
+                    <button type="button" onClick={() => handleRemoveResponsibility(index)}>X</button>
+                  </div>
+                ))}
+              </div>
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Type and press Enter to add a responsibility"
+                  value={newResponsibility}
+                  onChange={(e) => setNewResponsibility(e.target.value)}
+                  onKeyDown={handleResponsibilityKeyDown}
+                />
+              </div>
             </div>
-            <div className="input-group">
-              <input
-                type="text"
-                placeholder="Add Responsibility"
-                value={newResponsibility}
-                onChange={(e) => setNewResponsibility(e.target.value)}
-              />
-              <button type="button" onClick={handleAddResponsibility}>Add</button>
+            <div className="form-group-row">
+              <label>Tools and Software</label>
+              <div className="tools-list">
+                {formData.tools.map((tool, index) => (
+                  <div key={index} className="tool-item">
+                    <span>{tool}</span>
+                    <button type="button" onClick={() => handleRemoveTool(index)}>X</button>
+                  </div>
+                ))}
+              </div>
+              <div className="input-group">
+                <input
+                  type="text"
+                  placeholder="Type and press Enter to add a tool"
+                  value={newTool}
+                  onChange={(e) => setNewTool(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
+              </div>
             </div>
           </div>
 
           <div className="form-group">
             <label>Main Challenges</label>
+            <p className="support-description">
+            Outline key challenges you face in your role, highlighting their impact and frequency, to provide insights into areas where additional support may be beneficial.</p>
             {formData.challenges.map((challenge, index) => (
               <div key={index}>
                 <select
@@ -299,6 +348,8 @@ const GetStarted = () => {
 
           <div className="form-group">
             <label>Communication Style</label>
+            <p className="support-description">
+            Select your preferred communication style that best reflects how you interact and convey information within professional settings.</p>
             <div className="communication-styles">
               {communicationStyles.map((style, index) => (
                 <button
@@ -310,61 +361,56 @@ const GetStarted = () => {
             </div>
           </div>
 
-          <div className="form-group">
-            <label>Preferred Response Detail</label>
-            <select name="responseDetail" value={formData.responseDetail} onChange={handleChange}>
-              <option value="Detailed">Detailed</option>
-              <option value="Brief">Brief</option>
-              <option value="Step-by-step">Step-by-step</option>
-              <option value="Overview">Overview</option>
-            </select>
+          <div className="form-row">
+            <div className="form-group-row">
+              <label>Preferred Response Detail</label>
+              <select name="responseDetail" value={formData.responseDetail} onChange={handleChange}>
+                <option value="Detailed">Detailed</option>
+                <option value="Brief">Brief</option>
+                <option value="Step-by-step">Step-by-step</option>
+                <option value="Overview">Overview</option>
+              </select>
+            </div>
+
+            <div className="form-group-row">
+              <label>Industry-Specific Knowledge</label>
+              <p className="form-helper-text">Please provide details relevant to your industry expertise.</p>
+              <textarea
+                name="industryKnowledge"
+                value={formData.industryKnowledge}
+                onChange={handleChange}
+                rows={4}
+                placeholder="Please describe your industry specific knowledge related to your role here."
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label>Industry-Specific Knowledge</label>
-            <input type="text" name="industryKnowledge" value={formData.industryKnowledge} onChange={handleChange} />
+
+          <div className='form-row'>
+            <div className="form-group-row">
+              <label>Preferred Method to Give Feedback</label>
+              <select name="feedbackGiving" value={formData.feedbackGiving} onChange={handleChange}>
+                <option value="In-person">In-person</option>
+                <option value="Email">Email</option>
+                <option value="Surveys">Surveys</option>
+                <option value="Meetings">Meetings</option>
+              </select>
+            </div>
+            <div className="form-group-row">
+              <label>Preferred Method to Receive Feedback</label>
+              <select name="feedbackReceiving" value={formData.feedbackReceiving} onChange={handleChange}>
+                <option value="In-person">In-person</option>
+                <option value="Email">Email</option>
+                <option value="Surveys">Surveys</option>
+                <option value="Meetings">Meetings</option>
+              </select>
+            </div>
           </div>
+
           <div className="form-group">
-            <label>Industry-Specific Regulations</label>
-            <input type="text" name="industryRegulations" value={formData.industryRegulations} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Tools and Software</label>
-            <input type="text" name="tools" value={formData.tools} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Challenging Tool</label>
-            <input type="text" name="challengingTool" value={formData.challengingTool} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Goals and Objectives</label>
-            <input type="text" name="goals" value={formData.goals} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Skills Needed</label>
-            <input type="text" name="skillsNeeded" value={formData.skillsNeeded} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label>Preferred Method to Give Feedback</label>
-            <select name="feedbackGiving" value={formData.feedbackGiving} onChange={handleChange}>
-              <option value="In-person">In-person</option>
-              <option value="Email">Email</option>
-              <option value="Surveys">Surveys</option>
-              <option value="Meetings">Meetings</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Preferred Method to Receive Feedback</label>
-            <select name="feedbackReceiving" value={formData.feedbackReceiving} onChange={handleChange}>
-              <option value="In-person">In-person</option>
-              <option value="Email">Email</option>
-              <option value="Surveys">Surveys</option>
-              <option value="Meetings">Meetings</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Most Helpful Type of Feedback</label>
-            <input type="text" name="helpfulFeedback" value={formData.helpfulFeedback} onChange={handleChange} />
-          </div>
+              <label>Additional Info</label>
+              <input placeholder="Please add any other details or concerns you feel are relevant to your use of AI for your role" type="text" name="additionalInfo" value={formData.additionalInfo} onChange={handleChange} />
+            </div>
+      
           <button type="submit" className="submit-button">Submit</button>
         </form>
       </div>
