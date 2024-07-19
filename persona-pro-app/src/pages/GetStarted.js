@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import '../style/GetStarted.css';
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { MdMoreHoriz, MdSupportAgent, MdCode, MdPeople, MdAttachMoney, MdSchool, MdDesktopMac, MdGavel, MdDesignServices } from 'react-icons/md';
+import { assignRoles } from '../components/assignRole.js';
+import RoleModal from '../pages/RoleModal.js';
 
 const departments = [
   { name: 'Customer Support', icon: <MdSupportAgent size={50} /> },
@@ -15,6 +17,8 @@ const departments = [
   { name: 'IT', icon: <MdDesktopMac size={50} /> },
   { name: 'Legal', icon: <MdGavel size={50} /> },
   { name: 'Design', icon: <MdDesignServices size={50} /> },
+  { name: 'Scientist', icon: <MdDesignServices size={50} /> },
+  { name: 'Education', icon: <MdDesignServices size={50} /> },
   { name: 'Other', icon: <MdMoreHoriz size={50} /> },
 ];
 
@@ -41,6 +45,9 @@ const GetStarted = () => {
     feedbackReceiving: '',
     additionalInfo: '',
   });
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [topRoles, setTopRoles] = useState([]);
 
   const calculateProgress = () => {
     const totalFields = Object.keys(formData).length;
@@ -135,6 +142,11 @@ const GetStarted = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    const topRoles = assignRoles(formData);
+
+    setTopRoles(topRoles);
+    setModalIsOpen(true);
 
     setFormData({
       fullName: '',
